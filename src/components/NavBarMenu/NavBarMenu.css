@@ -1,0 +1,40 @@
+.NavBarMenu {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	background-color: pink;
+	padding: 10px;
+}
+
+.NavBarMenu__icon,
+.NavBarMenu__menu {
+	width: 20%;
+	height: 100%;
+	color: black;
+	/*background-color: gray;*/
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.NavBarMenu__icon svg,
+.NavBarMenu__menu svg {
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+
+.NavBarMenu__header{
+	width: 60%;
+	height: 100%;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
