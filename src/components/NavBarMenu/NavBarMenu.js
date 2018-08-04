@@ -15,9 +15,16 @@ export default class NavBarMenu extends Component {
 		this.setState({isMenuOpen: true})
 	}
 
+	hideMenu = (e) => {
+		this.setState({isMenuOpen: false})
+	}
 	render() {
 		let menuList = this.state.isMenuOpen ? (
-				<MenuList />
+				<MenuList click={this.hideMenu} />
+			) : null;
+
+		let backdrop = this.state.isMenuOpen ? (
+				<div className='NavBarMenu__backdrop' onClick={this.hideMenu} />
 			) : null;
 
 		return (
@@ -32,6 +39,7 @@ export default class NavBarMenu extends Component {
 					<MenuButton />
 				</div>
 				{menuList}
+				{backdrop}
 			</div>
 		)
 	}
