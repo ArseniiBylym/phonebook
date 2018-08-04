@@ -1,23 +1,22 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import './MenuList.css';
 
 function MenuList(props) {
 	return(
-		<div className='MenuList'>
-			<ul>
-				<li>
-					<Link to='/'>Contacts</Link>
-				</li>
-				<li>
-					<Link to='/newContact'>Add new</Link>
-				</li>
-				<li>
-					<Link to='/lastContacts'>Last calls</Link>
-				</li>
-				<li>
-					<Link to='/search'>Search</Link>
-				</li>
-			</ul>
+		<div className='MenuList' onClick={props.click}>
+			<div>
+				<Link to='/'>Contacts</Link>
+			</div>
+			<div>
+				<Link to='/newContact'>Add new</Link>
+			</div>
+			<div>
+				<Link to='/lastContacts'>Last calls</Link>
+			</div>
+			<div>
+				<Link to='/search'>Search</Link>
+			</div>
 		</div>
 	)
 }

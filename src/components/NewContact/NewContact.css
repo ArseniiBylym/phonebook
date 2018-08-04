@@ -1,0 +1,23 @@
+.NewContact {
+	padding: 10px 5px;
+}
+
+.failureModal,
+.successModal {
+	position: fixed;
+	width: 70%;
+	height: 200px;
+	left: 15%;
+	top: 200px;
+	background-color: pink;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: space-around;
+	z-index: 100;
+	border-radius: 5px;
+	padding: 10px;
+}
+.successModal {
+	background-color: #c9dbeb;
+}
