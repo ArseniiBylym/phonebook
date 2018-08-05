@@ -1,14 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function ContactsPreviewCard(props) {
+	console.log(props)
 	return (
-		<div className='ui raised segment'>
-			<img className='ui mini left floated circular image' src={props.photo} />
-			<div className='ui header small' style={{margin: '5px'}}>
-				<p>{props.name} {props.surname}</p>
+		<Link to={`/contactItem/${props.id}`}>
+			<div className='ui raised segment' style={{backgroundColor: '#d4dbe2'}}>
+				<img className='ui mini left floated image' src={props.photo} />
+				<div>
+					<div className='ui medium header'>
+						{props.name} {props.surname}
+					</div>
+					<p style={{color: 'gray'}}>
+						{props.phone}
+					</p>
+					{props.time && (
+						<p style={{color: 'gray'}}>{new Date(props.time).toLocaleString('ru',{hour: '2-digit',minute: '2-digit',second: '2-digit'})}</p>
+						)}
+				</div>
 			</div>
-			<p>{props.phone}</p>
-		</div>
+		</Link>
 	)
 }
 

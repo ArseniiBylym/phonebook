@@ -24,7 +24,7 @@ class Layout extends Component {
 						<Route exact path='/newContact' component={NewContact} />
 						<Route exact path='/lastContacts' component={LastContacts} />
 						<Route exact path='/search' component={Search} />
-						<Route exact path='/contactItem' component={ContactItem} />
+						<Route exact path='/contactItem/:id' component={ContactItem} />
 						<Route path='/' component={Contacts} />
 					</Switch>
 					

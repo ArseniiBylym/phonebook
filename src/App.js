@@ -27,6 +27,15 @@ class App extends Component {
 
 				
 			})
+			.then(()=> {
+				let lastContacts = JSON.parse(localStorage.getItem('lastContacts'))
+				console.log(lastContacts);
+				if(lastContacts) {
+					lastContacts.forEach((item)=> {
+						this.props.addToLastContacts(item.id, item.time)
+					})
+				}
+			})
 		}
 	}
 
@@ -41,9 +50,11 @@ class App extends Component {
   }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		addNewContact: (newContact) => dispatch({type: 'ADD_CONTACT', contact: newContact})
+		addNewContact: (newContact) => dispatch({type: 'ADD_CONTACT', contact: newContact}),
+		addToLastContacts: (currentId, time) => dispatch({type: 'ADD_TO_LAST', id: currentId, time: time})
 	}
 }
 

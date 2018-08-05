@@ -1,5 +1,6 @@
 const initialState = {
-	contacts: []
+	contacts: [],
+  lastContacts: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,8 +16,30 @@ const reducer = (state = initialState, action) => {
         id: action.contact.id
       }
       return {
+        ...state,
         contacts: state.contacts.concat(newContact)
       }
+    case 'ADD_TO_LAST':
+      let contact = null;
+      for (let i=0; i<state.contacts.length; i++) {
+        if(state.contacts[i].id == action.id) {
+          contact = Object.assign({}, state.contacts[i]);
+          break;
+        }
+      }
+      contact.time = action.time;
+      let arr = state.lastContacts.slice();
+      arr.unshift(contact);
+      if(arr.length > 5) arr.pop();
+
+      localStorage.setItem('lastContacts', JSON.stringify(arr.reverse()))
+
+      return{
+        ...state,
+        lastContacts: arr
+      }
+
+
     case 'REMOVE_CONTACT':
       return {
         persons: state.contacts.filter(contact => contact.id !== action.contact.id)

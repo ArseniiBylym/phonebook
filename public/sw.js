@@ -1,4 +1,4 @@
-const DINAMIC_CACHE_NAME = 'dinamic-cache';
+const DINAMIC_CACHE_NAME = 'dinamic-cache-v1';
 
 self.addEventListener('install', function(event) {
 	console.log('[Service Worker] Instaling...');
@@ -9,8 +9,22 @@ self.addEventListener('message', function(event) {
 
 })
 
+self.addEventListener('activate', function(event) {
+	event.waitUntil(
+		caches.keys().then(function(keys) {
+			Promise.all(keys.map((key)=> {
+				if (key !== DINAMIC_CACHE_NAME) {
+					return caches.delete(key);
+				}
+			}))
+		}).then(()=> {
+			console.log('Cache is clear!')
+		})
+
+	)
+})
+
 self.addEventListener('fetch', function(event) {
-		// console.log(event.request.url.includes)
 		if(event.request.url.includes('firebase')) {
 			event.respondWith(
 			caches.match(event.request)
@@ -24,7 +38,4 @@ self.addEventListener('fetch', function(event) {
 				})
 			)
 		}
-		
-	
-	
 })

@@ -67,6 +67,7 @@ class NewContact extends Component {
 	//send photo to firebaseDB and then send data to the firebase storage
 	sendNewContacToDB = () => {
 		let data = Object.assign({}, this.state.person);
+		let date = +new Date();
 
 
 		let showSuccessModal = () => {
@@ -80,7 +81,7 @@ class NewContact extends Component {
 			let person = {
 				...this.state.person,
 				photo: url,
-				id: +new Date()
+				id: date
 			}
 			console.log(person);
 			this.props.addNewContact(person);
@@ -100,7 +101,8 @@ class NewContact extends Component {
 						phone: data.phone,
 						company: data.company,
 						photo: downloadURL,
-						email: data.email
+						email: data.email,
+						id: date
 					})
 					return downloadURL;
 				})
@@ -204,7 +206,7 @@ class NewContact extends Component {
 			{successModal}
 			{backdrop}
 			<div className='NewContact'>
-				<div className="ui medium brown header">
+				<div className="ui large brown header">
 					Add new contact
 				</div>
 				<form className="ui form">
