@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './NewContact.css';
 import {firebaseDB, firebaseStorage} from '../../functions/firebase';
+import {connect} from 'react-redux';
 
 class NewContact extends Component {
 	state = {
@@ -12,7 +13,8 @@ class NewContact extends Component {
 			email: ''
 		},
 		showSuccessModal: false,
-		showFailureModal: false
+		showFailureModal: false,
+		showSpinnerButton: false
 	}
 
 	//trigger every time when user input value into form input element
@@ -54,7 +56,11 @@ class NewContact extends Component {
 			this.setState({showFailureModal: true})
 			return;
 		}
+
+		this.setState({showSpinnerButton: true})
 		console.log('Valid')
+		
+		// navigator.serviceWorker.controller.postMessage(firebaseDB, firebaseStorage)
 		this.sendNewContacToDB();
 	}
 
@@ -62,8 +68,22 @@ class NewContact extends Component {
 	sendNewContacToDB = () => {
 		let data = Object.assign({}, this.state.person);
 
+
 		let showSuccessModal = () => {
-			this.setState({showSuccessModal: true})
+			this.setState({
+				showSuccessModal: true,
+				showSpinnerButton: false
+			})
+		}
+
+		let sentToRudux = (url) => {
+			let person = {
+				...this.state.person,
+				photo: url,
+				id: +new Date()
+			}
+			console.log(person);
+			this.props.addNewContact(person);
 		}
 
 		let file = document.querySelector('form input[type="file"]').files[0];
@@ -82,9 +102,11 @@ class NewContact extends Component {
 						photo: downloadURL,
 						email: data.email
 					})
+					return downloadURL;
 				})
-				.then(() => {
+				.then((downloadURL) => {
 					console.log('Data was sended');
+					sentToRudux(downloadURL)
 					showSuccessModal();
 				})
 				.catch((e) => {
@@ -96,6 +118,7 @@ class NewContact extends Component {
 
 	//trigger when user close modal
 	hideSuccessModal = () => {
+		console.log(this.props.contacts)
 		this.setState({
 			showSuccessModal: false,
 			person: {
@@ -110,7 +133,10 @@ class NewContact extends Component {
 	}
 
 	hideFailureModal = () => {
-		this.setState({showFailureModal: false})
+		this.setState({
+			showFailureModal: false,
+			showSpinnerButton: false
+		})
 	}
 
 	
@@ -118,7 +144,6 @@ class NewContact extends Component {
 	formElemBlur = (e) => {
 		let target = e.target;
 		let value = e.target.value;
-		console.log(e.target);
 		switch (target.name) {
 			case 'name':
 				if (value === '') target.parentNode.classList.add('error');
@@ -169,10 +194,15 @@ class NewContact extends Component {
 				</Modal>
 			) : null
 
+		let backdrop = this.state.showSuccessModal || this.state.showFailureModal ?
+			(<div className='modalBackdrop'></div>) 
+			: null
+
 		return(
 			<React.Fragment>
 			{failureModal}
 			{successModal}
+			{backdrop}
 			<div className='NewContact'>
 				<div className="ui medium brown header">
 					Add new contact
@@ -202,7 +232,7 @@ class NewContact extends Component {
 				    <label>E-mail</label>
 				    <input type="email" name='email' placeholder="joe@schmoe.com" value={this.state.person.email} onBlur={this.formElemBlur} onChange={this.formChange}/>
 				  </div>
-				  <button className="ui button primary" type="submit" onClick={this.addContact}>Add</button>
+				  <button className={this.state.showSpinnerButton ? "ui button loading primary" : "ui button primary"} type="submit" onClick={this.addContact}>Add</button>
 				</form>
 			</div>
 		</React.Fragment>
@@ -210,7 +240,19 @@ class NewContact extends Component {
 	}
 }
 
-export default NewContact;
+const mapStateToProps = (state) => {
+	return {
+		contacts: state.contacts
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addNewContact: (newContact) => dispatch({type: 'ADD_CONTACT', contact: newContact})
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewContact);
 
 function Modal(props) {
 	return (
