@@ -10,7 +10,8 @@ class NewContact extends Component {
 			surname: '',
 			phone: '',
 			company: '',
-			email: ''
+			email: '',
+			photo: '',
 		},
 		showSuccessModal: false,
 		showFailureModal: false,
@@ -39,7 +40,7 @@ class NewContact extends Component {
 		
 		let isAllInputsFill = true;
 		for (let value in this.state.person) {
-			if (this.state.person[value] === ''){
+			if (this.state.person[value] === '' && value !== 'photo'){
 				isAllInputsFill = false;
 			}
 		}
@@ -77,7 +78,7 @@ class NewContact extends Component {
 			})
 		}
 
-		let sentToRudux = (url) => {
+		let sentToRudux = (url = '') => {
 			let person = {
 				...this.state.person,
 				photo: url,
@@ -87,34 +88,55 @@ class NewContact extends Component {
 			this.props.addNewContact(person);
 		}
 
-		let file = document.querySelector('form input[type="file"]').files[0];
+		if(this.state.person.photo) {
+			let file = document.querySelector('form input[type="file"]').files[0];
 
-		let uploadFile = firebaseStorage.ref('/contacts/photo/').child(file.name).put(file);
+			let uploadFile = firebaseStorage.ref('/contacts/photo/').child(file.name).put(file);
 
-		uploadFile.on('state_changed', null, null, function() {
-			uploadFile.snapshot.ref.getDownloadURL()
-				.then(function(downloadURL) {
-					
-					firebaseDB.ref('/contacts/').push({
-						name: data.name,
-						surname: data.surname,
-						phone: data.phone,
-						company: data.company,
-						photo: downloadURL,
-						email: data.email,
-						id: date
+			uploadFile.on('state_changed', null, null, function() {
+				uploadFile.snapshot.ref.getDownloadURL()
+					.then(function(downloadURL) {
+						
+						firebaseDB.ref('/contacts/').push({
+							name: data.name,
+							surname: data.surname,
+							phone: data.phone,
+							company: data.company,
+							photo: downloadURL,
+							email: data.email,
+							id: date
+						})
+						return downloadURL;
 					})
-					return downloadURL;
-				})
-				.then((downloadURL) => {
-					console.log('Data was sended');
-					sentToRudux(downloadURL)
-					showSuccessModal();
-				})
-				.catch((e) => {
-					console.log(e.message);
-				})
-		})
+					.then((downloadURL) => {
+						console.log('Data was sended');
+						sentToRudux(downloadURL)
+						showSuccessModal();
+					})
+					.catch((e) => {
+						console.log(e.message);
+					})
+			})
+		} else {
+			firebaseDB.ref('/contacts/').push({
+				name: data.name,
+				surname: data.surname,
+				phone: data.phone,
+				company: data.company,
+				photo: '',
+				email: data.email,
+				id: date
+			})
+			.then(() => {
+				console.log('Data was sended');
+				sentToRudux()
+				showSuccessModal();
+			})
+			.catch((e) => {
+				console.log(e.message);
+			})
+		}
+		
 
 	}
 
@@ -167,7 +189,7 @@ class NewContact extends Component {
 				break;
 			case 'phone':
 				let str = value.trim().replace(/\s/g, '');
-				if (str.length != 13 || isNaN(str.slice(1))) target.parentNode.classList.add('error')
+				if (str.length !== 13 || isNaN(str.slice(1))) target.parentNode.classList.add('error')
 				else if(target.parentNode.classList.contains('error')){
 					target.parentNode.classList.remove('error');
 				}

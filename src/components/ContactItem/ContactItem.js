@@ -19,8 +19,7 @@ class ContactItem extends Component {
 	}
 
 	render() {
-		console.log(this.state.currentItem)
-			if (this.state.currentItem == '') return null
+		if (this.state.currentItem == '') return null
 			else return (
 				<div className='ContactItem'>
 					<div className='ui card'>

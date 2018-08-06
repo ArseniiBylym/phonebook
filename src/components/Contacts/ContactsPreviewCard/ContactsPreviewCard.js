@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function ContactsPreviewCard(props) {
-	console.log(props)
 	return (
 		<Link to={`/contactItem/${props.id}`}>
 			<div className='ui raised segment' style={{backgroundColor: '#d4dbe2'}}>
-				<img className='ui mini left floated image' src={props.photo} />
+				<img className='ui mini left floated image' src={props.photo} alt='avatar'/>
 				<div>
 					<div className='ui medium header'>
 						{props.name} {props.surname}

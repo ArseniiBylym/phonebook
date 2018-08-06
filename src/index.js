@@ -5,11 +5,11 @@ import App from './App';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from './store/reducer';
-import {firebaseDB} from './functions/firebase';
 // import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(reducer);
 
+//register service worker
 window.addEventListener('load',()=>{
 	if('serviceWorker' in navigator) {
 		navigator.serviceWorker
@@ -22,8 +22,6 @@ window.addEventListener('load',()=>{
 		})
 	}
 })
-
-
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 // registerServiceWorker();

@@ -7,8 +7,25 @@ import {connect} from 'react-redux';
 
 class App extends Component {
 
+//gets data from firebaseDB and save into localStorage,
+//or get it from localStorage if connection is offline
 	componentDidMount = () => {
 		if(window.navigator.online === false) {
+			let arr = [];
+			let contFromStorage = JSON.parse(localStorage.getItem('contacts'));
+			for (let key in contFromStorage) {
+				arr.push(contFromStorage[key]);
+			}
+			for (let i=0; i<arr.length; i++) {
+				this.props.addNewContact(arr[i]);
+			}
+			
+			let lastContacts = JSON.parse(localStorage.getItem('lastContacts'))
+			if(lastContacts) {
+				lastContacts.forEach((item)=> {
+					this.props.addToLastContacts(item.id, item.time)
+				})
+			}
 
 		} else {
 			firebaseDB.ref('/contacts').once('value')
@@ -29,7 +46,6 @@ class App extends Component {
 			})
 			.then(()=> {
 				let lastContacts = JSON.parse(localStorage.getItem('lastContacts'))
-				console.log(lastContacts);
 				if(lastContacts) {
 					lastContacts.forEach((item)=> {
 						this.props.addToLastContacts(item.id, item.time)
