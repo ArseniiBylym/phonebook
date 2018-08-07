@@ -10,12 +10,14 @@ class App extends Component {
 //gets data from firebaseDB and save into localStorage,
 //or get it from localStorage if connection is offline
 	componentDidMount = () => {
-		if(window.navigator.online === false) {
+		console.log(window.navigator.onLine)
+		if(window.navigator.onLine === false) {
 			let arr = [];
 			let contFromStorage = JSON.parse(localStorage.getItem('contacts'));
 			for (let key in contFromStorage) {
 				arr.push(contFromStorage[key]);
 			}
+			console.log(arr)
 			for (let i=0; i<arr.length; i++) {
 				this.props.addNewContact(arr[i]);
 			}
