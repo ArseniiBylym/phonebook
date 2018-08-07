@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import ContactsPreviewCard from '../Contacts/ContactsPreviewCard/ContactsPreviewCard';
+import LastContactsList from '../../selectors/last_contacts';
 
 class LastContacts extends Component {
 	render() {
@@ -8,7 +9,7 @@ class LastContacts extends Component {
 			<div className='Contacts'>
 					<div className='ui large brown header' style={{paddingTop: '10px'}}>Last contacts</div>
 					
-					{this.props.lastPersons.reverse().map((person, i) => {
+					{this.props.contacts.reverse().map((person, i) => {
 						return (
 							<ContactsPreviewCard
 								key={person.id}
@@ -29,7 +30,7 @@ class LastContacts extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		lastPersons: state.lastContacts
+		contacts: LastContactsList(state)
 	}
 }
 
