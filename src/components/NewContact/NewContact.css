@@ -1,5 +1,5 @@
 .NewContact {
-	padding: 10px 5px;
+	padding: 60px 5px 5px 10px;
 }
 
 .failureModal,
@@ -14,10 +14,22 @@
 	flex-flow: column nowrap;
 	align-items: center;
 	justify-content: space-around;
-	z-index: 100;
+	z-index: 200;
 	border-radius: 5px;
 	padding: 10px;
 }
 .successModal {
 	background-color: #c9dbeb;
+}
+.modalBackdrop{
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background-color: rgba(128,128,128,.5);
+	z-index: 100;
+}
+.NewContact input[type="file"] {
+	color: pink;
 }
