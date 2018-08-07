@@ -1,5 +1,5 @@
-const STATIC_CACHE_NAME = 'static-cache-v3';
-const DINAMIC_CACHE_NAME = 'dinamic-cache-v3';
+const STATIC_CACHE_NAME = 'static-cache-v1';
+const DINAMIC_CACHE_NAME = 'dinamic-cache-v1';
 
 self.addEventListener('install', function(event) {
 	console.log('[Service Worker] Instaling...');
@@ -7,12 +7,11 @@ self.addEventListener('install', function(event) {
 		caches.open(STATIC_CACHE_NAME)
 		.then(function(cache) {
 			cache.addAll([
-				'/',
-				'/phonebook',
-				'/phonebook/static/js/bundle.js',
-				'/phonebook/static/css/main.f9525ea2.css',
-				'/phonebook/static/js/main.99c5b923.js',
-				'/phonebook/index.html',
+				'phonebook/',
+				'phonebook/static/js/bundle.js',
+				'phonebook/static/css/main.f9525ea2.css',
+				'phonebook/static/js/main.99c5b923.js',
+				'phonebook/index.html',
 				'https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet',
 				'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css',
 				'https://code.jquery.com/jquery-3.1.1.min.js',
