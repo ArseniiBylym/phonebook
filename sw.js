@@ -8,7 +8,7 @@ self.addEventListener('install', function(event) {
 		.then(function(cache) {
 			cache.addAll([
 				'/',
-				'/phonebook'
+				'/phonebook',
 				'/phonebook/static/js/bundle.js',
 				'/phonebook/static/css/main.f9525ea2.css',
 				'/phonebook/static/js/main.99c5b923.js',
