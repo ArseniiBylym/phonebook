@@ -1,5 +1,5 @@
-const STATIC_CACHE_NAME = 'static-cache-v1';
-const DINAMIC_CACHE_NAME = 'dinamic-cache-v1';
+const STATIC_CACHE_NAME = 'static-cache-v3';
+const DINAMIC_CACHE_NAME = 'dinamic-cache-v3';
 
 self.addEventListener('install', function(event) {
 	console.log('[Service Worker] Instaling...');
@@ -7,15 +7,16 @@ self.addEventListener('install', function(event) {
 		caches.open(STATIC_CACHE_NAME)
 		.then(function(cache) {
 			cache.addAll([
-				'https://arseniibylym/github.io/phonebook/',
-				'https://arseniibylym/github.io/phonebook/static/js/bundle.js',
-				'https://arseniibylym/github.io/phonebook/static/css/main.f9525ea2.css',
-				'https://arseniibylym/github.io/phonebook/static/js/main.99c5b923.js',
+				'/',
+				'/static/js/bundle.js',
+				'/static/css/main.f9525ea2.css',
+				'/static/js/main.99c5b923.js',
 				'https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet',
 				'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css',
 				'https://code.jquery.com/jquery-3.1.1.min.js',
 				'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.js',
-				'https://vignette.wikia.nocookie.net/disneyzomibes/images/5/5c/Unknown-avatar.jpg/revision/latest/scale-to-width-down/480?cb=20180310223206'
+				'https://vignette.wikia.nocookie.net/disneyzomibes/images/5/5c/Unknown-avatar.jpg/revision/latest/scale-to-width-down/480?cb=20180310223206',
+				'/index.html'
 				])
 			console.log('[Service Worker] Instaling...');
 		})
